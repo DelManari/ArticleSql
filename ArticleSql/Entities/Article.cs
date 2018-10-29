@@ -11,11 +11,11 @@ namespace ArticleSql
         public int id;
         public string refi;
         public string designation;
-        public float? prix;
+        public double prix;//float
         public int? qte ;
         public bool? promo;
         public string dateFinPromo;
-
+        public Article() { }
       public  Article(int idd,string refii, string desi, float prixx, int qtee, bool promoo, string date)
         {
             id = idd;

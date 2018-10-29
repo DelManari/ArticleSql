@@ -63,6 +63,7 @@
             this.txtreference.Name = "txtreference";
             this.txtreference.Size = new System.Drawing.Size(100, 20);
             this.txtreference.TabIndex = 2;
+            this.txtreference.TextChanged += new System.EventHandler(this.txtreference_TextChanged);
             // 
             // txtDate
             // 

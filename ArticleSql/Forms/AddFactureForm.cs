@@ -16,6 +16,13 @@ namespace ArticleSql.Forms
         public AddFactureForm()
         {
             InitializeComponent();
+            displayAllFactures();
+        }
+        public void displayAllFactures()
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = DAL_Facture.selectAllFactures();
+
         }
         public void display(int idd)
         {
@@ -28,14 +35,14 @@ namespace ArticleSql.Forms
         {
 
         }
-
+        //good gj 
         private void button1_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtreference.Text) && !string.IsNullOrWhiteSpace(txtDate.Text)) {
                 if (DAL_Facture.checkExisting(txtreference.Text) == 0)
                 {
                     display(DAL_Facture.insertFacture(new Entities.Facture(txtreference.Text, txtDate.Text)));
-                    MessageBox.Show("Facture " + txtreference.Text + " Has created successfuly");
+                    MessageBox.Show("Facture " + txtreference.Text + " Has created successfuly !");
 
                 }
                 else
@@ -73,22 +80,25 @@ namespace ArticleSql.Forms
         }
         private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(txtreference.Text) && !string.IsNullOrWhiteSpace(txtDate.Text))
-            {
-                //insert ligne
-                LigneFactureForm lff = new LigneFactureForm();
-                lff.date = txtDate.Text;
-                lff.refirence = txtreference.Text;
-                lff.id = DAL_Facture.checkExisting(txtreference.Text);
-
-                this.Hide();
+               DataGridViewRow dr = dataGridView1.SelectedRows[0];
+            txtreference.Text = dr.Cells[1].Value.ToString();
+            txtDate.Text = dr.Cells[2].Value.ToString();
+            //insert ligne
+            LigneFactureForm lff;
+               string datee = txtDate.Text;
+           string refi = txtreference.Text;
+            int resId = DAL_Facture.checkExisting(txtreference.Text);
+            lff = new LigneFactureForm(resId, refi,datee);
+            this.Hide();
                 lff.Show();
+           // MessageBox.Show(lff.refirence.ToString());
                 
-            }
-            else
-            {
-                MessageBox.Show("select a Bill pLz");
-            }
+
+        }
+
+        private void txtreference_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -26,7 +26,17 @@ namespace ArticleSql.DAL
               return (int)UserExist;
            
         }
+        public static DataTable selectAllFactures()
+        {
+            var select = "SELECT * FROM Facture ;";
 
+            var dataAdapter = new SqlDataAdapter(select, myConn);
+            var commandBuilder = new SqlCommandBuilder(dataAdapter);
+            var ds = new DataSet();
+            dataAdapter.Fill(ds);
+            myConn.Close();
+            return ds.Tables[0];
+        }
         public static int insertFacture(Facture f)
         {
             SqlCommand cmd = new SqlCommand("insert into Facture values(@ref,@date)", myConn);

@@ -37,24 +37,44 @@ namespace ArticleSql
         }
         public static Article getArticleById(int id)
         {
-            var select = "SELECT * FROM article where Id = " + id + ";";
-            var dataAdapter = new SqlDataAdapter(select, myConn);
+            myConn.Open();
+            var select = "select * from article where Id =" + id+";";
+              var dataAdapter = new SqlDataAdapter(select, myConn);
             var commandBuilder = new SqlCommandBuilder(dataAdapter);
-            var ds = new DataSet();
-            dataAdapter.Fill(ds);
+              var ds = new DataSet();
+             dataAdapter.Fill(ds);
             myConn.Close();
 
-            Article a = new Article((int)ds.Tables[0].Columns[0].DefaultValue, (string)ds.Tables[0].Columns[1].DefaultValue, (string)ds.Tables[0].Columns[2].DefaultValue, (int)ds.Tables[0].Columns[3].DefaultValue, (int)ds.Tables[0].Columns[4].DefaultValue, (bool)ds.Tables[0].Columns[5].DefaultValue, (string)ds.Tables[0].Columns[6].DefaultValue);
+            Article a = new Article();
+            a.id = (int)ds.Tables[0].Rows[0]["Id"];
+
+            a.refi = (string)ds.Tables[0].Rows[0]["Reference"];
+
+            a.designation = (string)ds.Tables[0].Rows[0]["Designation"];
+
+            a.prix = (double)ds.Tables[0].Rows[0]["Prix"];
+           a.qte = (int)ds.Tables[0].Rows[0]["Quantite"];
+            a.promo = (bool)ds.Tables[0].Rows[0]["Promo"];
+
+            a.dateFinPromo = ds.Tables[0].Rows[0]["DateFinPromo"].ToString();
+            myConn.Close();
             return a;
         }
-
+        public static int getQuantite(int id)
+        {
+            var select = "SELECT [Quantite] FROM Article where Id = '" + id + "';";
+            SqlCommand sqlCmnt = new SqlCommand(select, myConn);
+            myConn.Open();
+            int resukt = (int)sqlCmnt.ExecuteScalar();
+            myConn.Close();
+            return resukt;
+        }
         public static int getArticleIdByRef(string refi)
         {
             var select = "SELECT Id FROM Article where Reference = '" + refi + "';";
             SqlCommand sqlCmnt = new SqlCommand(select, myConn);
             myConn.Open();
             int resukt = (int)sqlCmnt.ExecuteScalar();
-            MessageBox.Show(resukt.ToString());
             myConn.Close();
             return resukt;
 

@@ -14,39 +14,54 @@ namespace ArticleSql.Forms
 {
     public partial class LigneFactureForm : Form
     {
-        public LigneFactureForm()
+        public LigneFactureForm(int id,string refi,string datee)
         {
             InitializeComponent();
             remprireComboBox();
+            this.id = id;
+            this.refirence = refi;
+            this.date = datee;
+            display(id);
         }
-
 
         public string refirence;
         public string date;
         public int id;
+        public int resultId;
+        public void display(int id)
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = DAL_Facture.GetLignesFacture(id);
 
+            //dataGridView1.Columns["Id"].Visible = false;
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            AddFactureForm fv = new AddFactureForm();
-            fv.display(id);
-            fv.setTextVal(refirence,date);
-            LigneFacture l = new LigneFacture();
-            l.f = id;
-          //  MessageBox.Show("done " + l.f);
-          //  MessageBox.Show(comboref.SelectedValue.ToString());
-          //  MessageBox.Show(comboref.SelectedValue.ToString());
-            l.a = DAL_Article.getArticleIdByRef(comboref.SelectedValue.ToString());
-          //  MessageBox.Show("t3aditha " + l.a);
 
-            l.prixUnit = float.Parse(txtPU.Text);
-           // MessageBox.Show("done " + l.prixUnit);
+                LigneFacture l = new LigneFacture();
+                l.f = id;
+                l.a = DAL_Article.getArticleIdByRef(comboref.SelectedValue.ToString());
+                l.prixUnit = float.Parse(txtPU.Text);
+                // MessageBox.Show("done " + l.prixUnit);
 
-            l.Quantite = int.Parse(txtquantit.Text);
+                l.Quantite = int.Parse(txtquantit.Text);
             //MessageBox.Show("done " + l.f + l.a + l.prixUnit + l.Quantite);
-            DAL_Facture.insertLigneFacture(l);
-            this.Hide();
-            fv.display(id);
-            fv.Show();
+            if (int.Parse(txtquantit.Text) <= DAL_Article.getQuantite(l.a))
+            {
+                DAL_Facture.insertLigneFacture(l);
+                Article NewArticle = new Article();
+                   NewArticle =DAL_Article.getArticleById(l.a);
+                NewArticle.qte -= l.Quantite;
+                DAL_Article.update(NewArticle);
+                display(id);
+                MessageBox.Show("New Quantite =  " + DAL_Article.getQuantite(l.a));
+
+            }
+            else
+            {
+                MessageBox.Show("Quantite Missing "+DAL_Article.getQuantite(l.a));
+            }
+           
         }
         private void remprireComboBox()
         {
@@ -66,6 +81,11 @@ namespace ArticleSql.Forms
             comboref.DisplayMember = "Reference";
             comboref.ValueMember = "Reference";
             comboref.DataSource = DAL_Article.search(textBox4.Text);
+
+        }
+
+        private void LigneFactureForm_Load(object sender, EventArgs e)
+        {
 
         }
     }
