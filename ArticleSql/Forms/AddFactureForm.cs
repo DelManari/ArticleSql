@@ -41,7 +41,8 @@ namespace ArticleSql.Forms
             if (!string.IsNullOrWhiteSpace(txtreference.Text) && !string.IsNullOrWhiteSpace(txtDate.Text)) {
                 if (DAL_Facture.checkExisting(txtreference.Text) == 0)
                 {
-                    display(DAL_Facture.insertFacture(new Entities.Facture(txtreference.Text, txtDate.Text)));
+                    DAL_Facture.insertFacture(new Entities.Facture(txtreference.Text, txtDate.Text));
+                    displayAllFactures();
                     MessageBox.Show("Facture " + txtreference.Text + " Has created successfuly !");
 
                 }
