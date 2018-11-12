@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ArticleSql.DAL
 {
@@ -28,14 +29,21 @@ namespace ArticleSql.DAL
         }
         public static DataTable selectAllFactures()
         {
-            var select = "SELECT * FROM Facture ;";
-
-            var dataAdapter = new SqlDataAdapter(select, myConn);
-            var commandBuilder = new SqlCommandBuilder(dataAdapter);
-            var ds = new DataSet();
-            dataAdapter.Fill(ds);
-            myConn.Close();
-            return ds.Tables[0];
+            try
+            {
+                var select = "SELECT * FROM Facture ;";
+                var dataAdapter = new SqlDataAdapter(select, myConn);
+                var commandBuilder = new SqlCommandBuilder(dataAdapter);
+                var ds = new DataSet();
+                dataAdapter.Fill(ds);
+                myConn.Close();
+                return ds.Tables[0];
+            }catch(Exception e)
+            {
+                MessageBox.Show("Pls Check The Connection to the Database");
+                Application.Exit();
+                return null;
+            }
         }
         public static int insertFacture(Facture f)
         {
