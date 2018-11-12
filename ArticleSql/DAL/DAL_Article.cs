@@ -15,13 +15,22 @@ namespace ArticleSql
 
         public static DataTable affiche()
         {
-            var select = "SELECT * FROM article";
-            var dataAdapter = new SqlDataAdapter(select, myConn);
-            var commandBuilder = new SqlCommandBuilder(dataAdapter);
-            var ds = new DataSet();
-            dataAdapter.Fill(ds);
-            myConn.Close();
-            return ds.Tables[0];
+            try
+            {
+
+                var select = "SELECT * FROM article";
+                var dataAdapter = new SqlDataAdapter(select, myConn);
+                var commandBuilder = new SqlCommandBuilder(dataAdapter);
+                var ds = new DataSet();
+                dataAdapter.Fill(ds);
+                myConn.Close();
+                return ds.Tables[0];
+            }catch(Exception ee)
+            {
+                MessageBox.Show("Pls Check The Connection to the Database");
+                Application.Exit();
+                return null;
+            }
 
         }
         public static DataTable selectRef()
@@ -101,12 +110,17 @@ namespace ArticleSql
                 cmd.Parameters.AddWithValue("@date", DBNull.Value);
             else
                 cmd.Parameters.AddWithValue("@date", a.dateFinPromo);
-
-            myConn.Open();
-           int sa =  cmd.ExecuteNonQuery();
-            myConn.Close();
-            return (sa);
-
+            try
+            {
+                myConn.Open();
+                int sa = cmd.ExecuteNonQuery();
+                myConn.Close();
+                return (sa);
+            }catch(Exception e)
+            {
+                MessageBox.Show("Reference Already Exisit");
+                return -1;
+            }
         }
         public static int update(Article a)
         {

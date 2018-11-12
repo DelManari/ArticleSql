@@ -25,10 +25,12 @@ namespace ArticleSql
         
         public void display()
         {
+            if(DAL_Article.affiche() != null)
+            {
+                dataGridView1.DataSource = DAL_Article.affiche();
+                dataGridView1.Columns["Id"].Visible = false;
+            }
 
-            dataGridView1.DataSource = DAL_Article.affiche();
-
-            dataGridView1.Columns["Id"].Visible = false;
         }
 
         private void txtRech_TextChanged(object sender, EventArgs e)
