@@ -21,14 +21,16 @@ namespace ArticleSql.Forms
         {
             MainForm mf = new MainForm();
             this.Hide();
-            mf.Show();
+            mf.ShowDialog();
+            this.Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             AddFactureForm mf = new AddFactureForm();
             this.Hide();
-            mf.Show();
+            mf.ShowDialog();
+            this.Close();
         }
     }
 }

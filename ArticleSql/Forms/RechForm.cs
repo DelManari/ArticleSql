@@ -24,7 +24,8 @@ namespace ArticleSql
             main.rechQuantit = txtquan.Text;
             this.Hide();
             main.rechAvance();
-            main.Show();
+            main.ShowDialog();
+            this.Close();
         }
     }
 }

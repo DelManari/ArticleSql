@@ -91,7 +91,8 @@ namespace ArticleSql.Forms
             int resId = DAL_Facture.checkExisting(txtreference.Text);
             lff = new LigneFactureForm(resId, refi,datee);
             this.Hide();
-                lff.Show();
+                lff.ShowDialog();
+            this.Close();
            // MessageBox.Show(lff.refirence.ToString());
                 
 

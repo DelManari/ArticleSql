@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ArticleSql.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,7 @@ namespace ArticleSql
 {
     public partial class MainForm : Form
     {
+
         public MainForm()
         {
             InitializeComponent();
@@ -62,9 +64,10 @@ namespace ArticleSql
             uf.txtdate.Text = date;
             uf.idd = IDb;
             this.Hide();
-            uf.Show();
+            uf.ShowDialog();
             uf.mainf.Update();
-          
+            this.Close();
+
         }
         string refid, des, pri, qua, pro, date, IDb;
       private void dataGridView1_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -107,8 +110,9 @@ namespace ArticleSql
       {
           RechForm rechAv = new RechForm();
           this.Hide();
-          rechAv.Show();
+          rechAv.ShowDialog();
           rechAv.main = this;
+            this.Close();
 
       }
       public void rechAvance()

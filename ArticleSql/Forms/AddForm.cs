@@ -50,10 +50,11 @@ namespace ArticleSql
                     else
                         MessageBox.Show("error");
                     clearData();
-                    this.Close();
-                    mainf.Show();
+                    this.Hide();
+                    mainf.ShowDialog();
 
                     mainf.display();
+                     this.Close();
                 }
                 else
                 {
