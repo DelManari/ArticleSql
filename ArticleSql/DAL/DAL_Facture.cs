@@ -1,4 +1,5 @@
 ﻿using ArticleSql.Entities;
+using ArticleSql.Forms;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -78,6 +79,41 @@ namespace ArticleSql.DAL
             myConn.Close();
             return ds.Tables[0];
 
+        }
+
+        public static Facture GetFullFacture(int id)
+        {
+            var select = "SELECT Facture.date , Facture.Reference,LigneFacture.Id,Article.Id, Article.Reference , Article.Designation,Article.Quantite,Article.Prix ,LigneFacture.Quantite as qteDemande FROM LigneFacture ,Article,Facture Where Article.Id = LigneFacture.IdArticle AND Facture.Id =" + id+" AND LigneFacture.IdFacture = " + id + ";";
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(select,myConn);
+            adapter.Fill(dt);
+            myConn.Close();
+            Facture f = new Facture();
+            f.id = id;
+            LigneFacture[] lf = new LigneFacture[200];
+            int i = 0;
+
+            foreach(DataRow c in dt.Rows)
+            {
+                f.date = c[0].ToString();
+                f.reference = c[1].ToString();
+                lf[i] = new LigneFacture(int.Parse(c[2].ToString()), id, int.Parse(c[3].ToString()), int.Parse(c[7].ToString()), float.Parse(c[8].ToString()));
+                i++;
+            }
+            f.Articles = lf;
+            return f;
+        }
+        public static SqlDataAdapter GetFullFactureTB(int id)
+        {
+            var select = "SELECT Facture.date , Facture.Reference,LigneFacture.Id as ligneId,article.Id as articleId, article.Reference as articleRef, article.Designation as articleDes,article.Quantite as articleQte,article.Prix as articlePrix ,LigneFacture.Quantite as qteDemande FROM LigneFacture ,article,Facture Where article.Id = LigneFacture.IdArticle AND Facture.Id =" + 1002+ " AND LigneFacture.IdFacture = " + 1002 + ";" + "SELECT Facture.date , Facture.Reference,LigneFacture.Id as ligneId,article.Id as articleId, article.Reference as articleRef, article.Designation as articleDes,article.Quantite as articleQte,article.Prix as articlePrix ,LigneFacture.Quantite as qteDemande FROM LigneFacture ,article,Facture Where article.Id = LigneFacture.IdArticle AND Facture.Id =" + 1005 + " AND LigneFacture.IdFacture = " + 1005 + ";";
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter(select, myConn);
+
+            adapter.Fill(dt);
+            myConn.Close();
+
+            return adapter;
         }
     }
 }

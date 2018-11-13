@@ -16,7 +16,7 @@ namespace ArticleSql
         public bool? promo;
         public string dateFinPromo;
         public Article() { }
-      public  Article(int idd,string refii, string desi, float prixx, int qtee, bool promoo, string date)
+        public  Article(int idd,string refii, string desi, float prixx, int qtee, bool promoo, string date)
         {
             id = idd;
             refi = refii;

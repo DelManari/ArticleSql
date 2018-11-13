@@ -1,4 +1,5 @@
 ﻿using ArticleSql.DAL;
+using ArticleSql.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -101,6 +102,19 @@ namespace ArticleSql.Forms
         private void txtreference_TextChanged(object sender, EventArgs e)
         {
 
+        }
+        public string GetRef()
+        {
+            return txtreference.Text;
+        }
+        private void printBtn_Click(object sender, EventArgs e)
+        {
+            Facture f = DAL_Facture.GetFullFacture(1003);
+            reporting r = new reporting();
+            r.facform = this;
+            this.Hide();
+            r.ShowDialog();
+            this.Close();
         }
     }
 }

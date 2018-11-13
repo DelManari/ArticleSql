@@ -19,6 +19,7 @@ namespace ArticleSql
         public MainForm main;
         private void recherchbtn_Click(object sender, EventArgs e)
         {
+            main = new MainForm();
             main.rechPrix = txtprix.Text;
             main.rechPromo = txtpromo.Text;
             main.rechQuantit = txtquan.Text;
